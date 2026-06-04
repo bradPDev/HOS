@@ -142,8 +142,7 @@ export const useStore = create<AppState>((set, get) => ({
         .from('profiles')
         .select('*')
         .eq('id', data.user.id)
-        .limit(1)
-        .select();
+        .limit(1);
 
       if (profile && profile.length > 0) {
         set({ user: { ...profile[0], email } });
@@ -155,8 +154,7 @@ export const useStore = create<AppState>((set, get) => ({
             .select('*')
             .eq('staff_id', data.user.id)
             .eq('status', 'active')
-            .limit(1)
-            .select();
+            .limit(1);
           
           if (activeShifts && activeShifts.length > 0) {
             set({ activeShift: activeShifts[0] });
@@ -234,8 +232,7 @@ export const useStore = create<AppState>((set, get) => ({
     const { data: transactions } = await supabase
       .from('financial_transactions')
       .select('*')
-      .eq('shift_id', activeShift.id)
-      .select();
+      .eq('shift_id', activeShift.id);
 
     let cashBalanceChange = 0;
     if (transactions) {
@@ -290,8 +287,7 @@ export const useStore = create<AppState>((set, get) => ({
     const { data: transactions } = await supabase
       .from('financial_transactions')
       .select('*')
-      .eq('shift_id', activeShift.id)
-      .select();
+      .eq('shift_id', activeShift.id);
 
     let cashBalanceChange = 0;
     if (transactions) {
