@@ -188,9 +188,19 @@ ALTER TABLE financial_transactions ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public profiles are viewable by authenticated users"
   ON profiles FOR SELECT TO authenticated USING (true);
 
-CREATE POLICY "Only admins can modify profiles"
-  ON profiles FOR ALL TO authenticated USING (
+CREATE POLICY "Admins can update profiles"
+  ON profiles FOR UPDATE TO authenticated USING (
     (SELECT role FROM profiles WHERE id = auth.uid()) = 'admin'
+  );
+
+CREATE POLICY "Admins can delete profiles"
+  ON profiles FOR DELETE TO authenticated USING (
+    (SELECT role FROM profiles WHERE id = auth.uid()) = 'admin'
+  );
+
+CREATE POLICY "Admins or owners can insert profiles"
+  ON profiles FOR INSERT TO authenticated WITH CHECK (
+    (SELECT role FROM profiles WHERE id = auth.uid()) = 'admin' OR auth.uid() = id
   );
 
 -- 2. Room Types Policies
