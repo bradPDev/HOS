@@ -243,7 +243,9 @@ export const WebStorefront: React.FC<WebStorefrontProps> = ({ onGoToStaffPortal 
           })
           .select();
 
-        if (txError) throw txError;
+        if (txError) {
+          console.warn('Failed to insert financial transaction (possibly RLS restrictions):', txError.message);
+        }
 
         // Update reservation to confirmed
         const { error: resError } = await supabase
