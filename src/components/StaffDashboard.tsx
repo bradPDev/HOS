@@ -185,7 +185,7 @@ export const StaffDashboard: React.FC<StaffDashboardProps> = ({ onGoToStorefront
       const totalCost = Number((baseCost * 1.12).toFixed(2));
 
       await supabase.from('financial_transactions').insert({
-        reservation_id: res.id,
+        reservation_id: res[0].id,
         shift_id: activeShift?.id,
         amount: totalCost,
         type: 'payment',

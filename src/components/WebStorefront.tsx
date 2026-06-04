@@ -208,7 +208,7 @@ export const WebStorefront: React.FC<WebStorefrontProps> = ({ onGoToStaffPortal 
       if (error || !reservation) throw error || new Error('Failed to lock reservation');
 
       // Temporarily mark room status as dirty or keep available (we keep it reserved by reservation overlapping check)
-      setCreatedReservation(reservation);
+      setCreatedReservation(reservation[0]);
       setTimeLeft(600); // 10 minutes in seconds
       setStep('payment');
     } catch (err) {
