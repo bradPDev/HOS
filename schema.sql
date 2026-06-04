@@ -250,8 +250,8 @@ CREATE POLICY "Staff can manage their own shifts"
 CREATE POLICY "Staff can view transactions"
   ON financial_transactions FOR SELECT TO authenticated USING (true);
 
-CREATE POLICY "Staff can insert transactions"
-  ON financial_transactions FOR INSERT TO authenticated WITH CHECK (true);
+CREATE POLICY "Anyone can insert transactions"
+  ON financial_transactions FOR INSERT WITH CHECK (true);
 
 CREATE POLICY "Immutable Ledger: No updates/deletes allowed on transactions"
   ON financial_transactions FOR UPDATE TO authenticated USING (false);
