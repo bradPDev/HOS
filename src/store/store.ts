@@ -104,7 +104,7 @@ interface AppState {
   user: UserProfile | null;
   isLoadingAuth: boolean;
   setUser: (user: UserProfile | null) => void;
-  signIn: (email: string) => Promise<boolean>;
+  signIn: (email: string, password: string) => Promise<boolean>;
   signOut: () => Promise<void>;
 
   // Booking Cart
@@ -130,11 +130,11 @@ export const useStore = create<AppState>((set, get) => ({
   user: null,
   isLoadingAuth: true,
   setUser: (user) => set({ user }),
-  signIn: async (email) => {
+  signIn: async (email, password) => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password: 'password' // Mock password
+        password
       });
       if (error) throw error;
       

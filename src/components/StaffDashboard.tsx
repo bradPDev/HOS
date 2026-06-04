@@ -14,6 +14,7 @@ interface StaffDashboardProps {
 export const StaffDashboard: React.FC<StaffDashboardProps> = ({ onGoToStorefront }) => {
   const { user, signIn, signOut, activeShift, startShift, closeShift, syncShiftExpectedCash, settings, updateTaxRate } = useStore();
   const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [activeTab, setActiveTab] = useState<'reservations' | 'housekeeping' | 'maintenance' | 'finance' | 'admin'>('reservations');
 
@@ -102,12 +103,12 @@ export const StaffDashboard: React.FC<StaffDashboardProps> = ({ onGoToStorefront
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailInput) return;
+    if (!emailInput || !passwordInput) return;
     setIsLoggingIn(true);
-    const success = await signIn(emailInput);
+    const success = await signIn(emailInput, passwordInput);
     setIsLoggingIn(false);
     if (!success) {
-      alert('Login failed. Use admin@hos.com, frontdesk@hos.com, or housekeeping@hos.com');
+      alert('Login failed. Please check your email and password.');
     }
   };
 
@@ -434,12 +435,24 @@ export const StaffDashboard: React.FC<StaffDashboardProps> = ({ onGoToStorefront
                 value={emailInput}
                 onChange={e => setEmailInput(e.target.value)}
               />
+            </div>
+
+            <div className="form-group" style={{ marginTop: '16px' }}>
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                className="input-field"
+                required
+                placeholder="Enter password"
+                value={passwordInput}
+                onChange={e => setPasswordInput(e.target.value)}
+              />
               <div style={{ marginTop: '8px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                Demo keys: <code>admin@hos.com</code>, <code>frontdesk@hos.com</code>, <code>housekeeping@hos.com</code>
+                Demo credentials: Use registered email/password or local credentials.
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary" style={{ width: '100%', height: '44px' }} disabled={isLoggingIn}>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', height: '44px', marginTop: '16px' }} disabled={isLoggingIn}>
               {isLoggingIn ? 'Verifying Credentials...' : 'Authenticate'}
             </button>
           </form>
